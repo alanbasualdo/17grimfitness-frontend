@@ -1,0 +1,31 @@
+import { Link } from "react-router-dom";
+
+export const Navbar = () => {
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("token-init-date");
+    window.location.reload();
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center p-2 mb-4 bg-gray-100 w-full">
+      <ul className="nav nav-underline gap-4">
+        <li className="nav-item">
+          <Link className="nav-link text-black" to="/classes">
+            Clases <i className="ri-timer-flash-line"></i>
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link text-black" to="/account">
+            Cuenta <i className="ri-home-2-line"></i>
+          </Link>
+        </li>
+        <li className="nav-item" onClick={() => logout()}>
+          <a className="nav-link text-black">
+            Salir <i className="ri-logout-box-r-line"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
+};

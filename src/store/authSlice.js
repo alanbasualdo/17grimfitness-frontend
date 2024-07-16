@@ -9,6 +9,7 @@ const authSlice = createSlice({
     token: "",
     success: false,
     errorMessage: undefined,
+    loadingUser: false,
   },
   reducers: {
     setLogin: (state, { payload }) => {
@@ -32,13 +33,21 @@ const authSlice = createSlice({
       state.success = false;
       state.errorMessage = payload;
     },
+    setLoadingUser: (state, { payload }) => {
+      state.loadingUser = payload;
+    },
     clearErrorMessage: (state) => {
       state.errorMessage = undefined;
     },
   },
 });
 
-export const { setLogin, setChecking, setLogout, clearErrorMessage } =
-  authSlice.actions;
+export const {
+  setLogin,
+  setChecking,
+  setLoadingUser,
+  setLogout,
+  clearErrorMessage,
+} = authSlice.actions;
 
 export default authSlice;

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
-  const logout = () => {
+  const logout = (e) => {
+    e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("token-init-date");
     window.location.reload();
@@ -20,10 +21,10 @@ export const Navbar = () => {
             Cuenta <i className="ri-home-2-line"></i>
           </Link>
         </li>
-        <li className="nav-item" onClick={() => logout()}>
-          <a className="nav-link text-black">
+        <li className="nav-item">
+          <button className="nav-link text-black" onClick={logout}>
             Salir <i className="ri-logout-box-r-line"></i>
-          </a>
+          </button>
         </li>
       </ul>
     </div>

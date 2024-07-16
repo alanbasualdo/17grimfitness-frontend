@@ -1,6 +1,12 @@
 import gymApi from "../api/gymApi";
 import { useDispatch, useSelector } from "react-redux";
-import { setChecking, setLogin, setLogout } from "../store/authSlice";
+import {
+  setChecking,
+  setLoadingUser,
+  setLogin,
+  setLogout,
+} from "../store/authSlice";
+import Swal from "sweetalert2";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -29,20 +35,15 @@ export const useAuthStore = () => {
   };
 
   const startRegister = async (user) => {
-    dispatch(setChecking());
+    dispatch(setLoadingUser(true));
     try {
-      const { data } = await gymApi.post("/user", user);
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("token-init-date", new Date().getTime());
-        /* toast.success(data.msg); */
-        dispatch(setLogin(data));
-      } else {
-        /* toast.error(data.msg); */
-        dispatch(setLogout());
-      }
+      const { data } = await gymApi.post("/user/new", user);
+      dispatch(setLoadingUser(false));
+      return data;
     } catch (error) {
+      dispatch(setLoadingUser(false));
       console.log(error);
+      return { success: false, message: "Error al registrar el usuario" };
     }
   };
 

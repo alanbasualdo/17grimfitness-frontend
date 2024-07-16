@@ -58,34 +58,42 @@ export const Classes = () => {
   }, []);
 
   return (
-    <div className="mx-4">
-      {sortedClasses.map((day, index) => (
-        <div key={index} className="text-center mb-4">
-          <h4 className="font-bold">{day}</h4>
-          <table className="table table-bordered table-hover text-center">
-            <thead>
-              <tr>
-                <th scope="col">Horario</th>
-                <th scope="col">Clase</th>
-              </tr>
-            </thead>
-            <tbody>
-              {classes
-                .filter((classItem) => classItem.day === day)
-                .map((classItem, index) => (
-                  <tr
-                    key={index}
-                    className="cursor-pointer"
-                    onClick={() => subscribeToTheClass(classItem)}
-                  >
-                    <td>{`${classItem.from} - ${classItem.to}`}</td>
-                    <td>{classItem.about}</td>
+    <div className="container">
+      <div className="row">
+        {sortedClasses.map((day, index) => (
+          <div key={index} className="col-md-6 mb-4">
+            <div className="text-center">
+              <h4 className="font-bold">{day}</h4>
+              <table className="table table-bordered table-hover text-center">
+                <thead className="table-secondary">
+                  <tr>
+                    <th scope="col" className="text-dark">
+                      Horario
+                    </th>
+                    <th scope="col" className="text-dark">
+                      Clase
+                    </th>
                   </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      ))}
+                </thead>
+                <tbody>
+                  {classes
+                    .filter((classItem) => classItem.day === day)
+                    .map((classItem, index) => (
+                      <tr
+                        key={index}
+                        className="cursor-pointer"
+                        onClick={() => subscribeToTheClass(classItem)}
+                      >
+                        <td>{`${classItem.from} - ${classItem.to}`}</td>
+                        <td>{classItem.about}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

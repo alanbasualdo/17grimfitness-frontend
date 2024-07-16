@@ -3,23 +3,29 @@ import { useAuthStore } from "../hooks/useAuthStore";
 import { Link } from "react-router-dom";
 
 export const Login = () => {
-  const [dni, setDni] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [disable, setDisable] = useState(true);
   const { startLogin } = useAuthStore();
 
-  const loginClick = (e) => {
-    startLogin({ dni, password });
+  const loginClick = () => {
+    startLogin({ email, password });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      loginClick();
+    }
   };
 
   useEffect(() => {
-    if (dni.length === 8 && password !== "") {
+    if (email.length > 0 && password.length > 0) {
       setDisable(false);
     } else {
       setDisable(true);
     }
-  }, [dni, password]);
+  }, [email, password]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen m-2">
@@ -27,12 +33,13 @@ export const Login = () => {
       <p className="text-xl">Fitness</p>
       <div className="text-end">
         <div className="input-group-sm input-group mb-3">
-          <span className="input-group-text">DNI</span>
+          <span className="input-group-text">Correo electrónico</span>
           <input
-            type="number"
+            type="text"
             className="form-control"
-            onChange={(e) => setDni(e.target.value)}
-            value={dni}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div className="input-group-sm input-group mb-3">
@@ -42,6 +49,7 @@ export const Login = () => {
             className="form-control"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            onKeyDown={handleKeyDown}
           />
           <button
             className="btn btn-sm btn-outline-secondary"
@@ -66,7 +74,7 @@ export const Login = () => {
           <button
             type="button"
             className="btn btn-sm btn-success ms-auto"
-            onClick={(e) => loginClick(e)}
+            onClick={loginClick}
             disabled={disable}
           >
             Ingresar

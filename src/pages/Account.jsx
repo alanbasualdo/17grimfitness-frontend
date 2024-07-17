@@ -33,7 +33,7 @@ export const Account = () => {
     <>
       <div className="text-center">
         {user.role === "AdminRole" && (
-          <div className="mb-4 mx-2">
+          <div className="mx-2 mb-2">
             <button
               className={`btn btn-sm mb-2 ${
                 addClass ? "btn-danger" : "btn-primary"

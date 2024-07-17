@@ -6,16 +6,15 @@ import {
   setLogin,
   setLogout,
 } from "../store/authSlice";
-import Swal from "sweetalert2";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const startLogin = async ({ dni, password }) => {
+  const startLogin = async ({ email, password }) => {
     dispatch(setChecking());
     try {
-      const { data } = await gymApi.post("/login", { dni, password });
+      const { data } = await gymApi.post("/login/auth", { email, password });
       if (data.success) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("token-init-date", new Date().getTime());

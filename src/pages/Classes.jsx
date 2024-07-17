@@ -46,7 +46,7 @@ export const Classes = () => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Saved!", "", "success");
+        Swal.fire("Listo!", "", "success");
       } else if (result.isDenied) {
         return;
       }

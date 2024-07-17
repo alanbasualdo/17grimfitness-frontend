@@ -63,7 +63,6 @@ export const Login = () => {
             )}
           </button>
         </div>
-
         <div className="mt-4">
           <Link
             to="/register"

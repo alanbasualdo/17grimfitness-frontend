@@ -52,7 +52,9 @@ export const Register = () => {
 
   useEffect(() => {
     const areEmailsEqual = user.email === repeatedEmail;
-    setDisable(!areEmailsEqual);
+    const areFieldsFilled =
+      user.name && user.lastName && user.email && repeatedEmail;
+    setDisable(!(areEmailsEqual && areFieldsFilled));
   }, [user, repeatedEmail]);
 
   const handleInputChange = (e) => {

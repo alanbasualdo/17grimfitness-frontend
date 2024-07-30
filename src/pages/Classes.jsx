@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useClassStore } from "../hooks/useClassesStore";
 import Swal from "sweetalert2";
+import { useUserClass } from "../hooks/useUserClass";
 
 export const Classes = () => {
   const { startGetClasses } = useClassStore();
+  const { startSubscribeClass } = useUserClass();
   const { classes } = useSelector((state) => state.class);
 
   // Mapeo de los días de la semana a un valor numérico
@@ -44,9 +46,15 @@ export const Classes = () => {
         denyButton: "bg-secondary",
         content: "font-thin",
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Listo!", "", "success");
+        try {
+          const data = await startSubscribeClass(gymClass);
+          console.log(data);
+          Swal.fire("Listo!", "", "success");
+        } catch (error) {
+          Swal.fire("Error", "No se pudo inscribir a la clase", "error");
+        }
       } else if (result.isDenied) {
         return;
       }

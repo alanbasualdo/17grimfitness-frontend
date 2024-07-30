@@ -20,11 +20,11 @@ export const useAuthStore = () => {
         localStorage.setItem("token-init-date", new Date().getTime());
         /* toast.success(data.msg); */
         dispatch(setLogin(data));
-        return;
+        return data;
       } else {
         /* toast.error(data.msg); */
         dispatch(setLogout());
-        return;
+        return data;
       }
     } catch (error) {
       /* toast.error(error.response.data.msg); */

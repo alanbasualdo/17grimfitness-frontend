@@ -1,12 +1,11 @@
 import gymApi from "../api/gymApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLoading } from "../store/loaderSlice";
 import { setClasses } from "../store/classSlice";
 import Swal from "sweetalert2";
 
 export const useClassStore = () => {
   const dispatch = useDispatch();
-  const { classes } = useSelector((state) => state.class);
 
   const startPostClass = async (newClass) => {
     dispatch(setLoading(true));

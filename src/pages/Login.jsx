@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../hooks/useAuthStore";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,8 +10,25 @@ export const Login = () => {
   const [disable, setDisable] = useState(true);
   const { startLogin } = useAuthStore();
 
-  const loginClick = () => {
-    startLogin({ email, password });
+  const loginClick = async () => {
+    const data = await startLogin({ email, password });
+    if (data.success) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: data.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: data.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const handleKeyDown = (e) => {

@@ -63,11 +63,20 @@ export const UserData = ({ user }) => {
 
   return (
     <div className="mx-2">
-      <div className="container border p-2 rounded">
-        <p className="text-center font-semibold text-xl mb-2">
-          Datos personales
-        </p>
-        <div className="row">
+      <div className="container border border-black p-2 rounded">
+        <p className="text-center font-semibold text-xl mb-2">Datos</p>
+        <div className={`row ${edit ? "blur-none" : "blur-sm"}`}>
+          <div className="col-md-6 mb-2">
+            <div className="input-group input-group-sm">
+              <span className="input-group-text">Fecha de inicio</span>
+              <input
+                type="date"
+                name="name"
+                className="form-control"
+                value={editedUser.startDate}
+              />
+            </div>
+          </div>
           <div className="col-md-6 mb-2">
             <div className="input-group input-group-sm">
               <span className="input-group-text">Nombre</span>
@@ -122,7 +131,7 @@ export const UserData = ({ user }) => {
           </div>
           <div className="col-md-6 mb-2">
             <div className="input-group input-group-sm">
-              <span className="input-group-text">Contraseña</span>
+              <span className="input-group-text">Nueva contraseña</span>
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -131,7 +140,7 @@ export const UserData = ({ user }) => {
                 disabled={!edit}
               />
               <button
-                className="btn btn-sm btn-outline-secondary"
+                className="btn btn-sm btn-light"
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -143,31 +152,31 @@ export const UserData = ({ user }) => {
               </button>
             </div>
           </div>
-          <div className="col-md-6 flex flex-wrap justify-center items-center">
-            {edit ? (
-              <div className="flex flex-wrap gap-2 justify-center">
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => setEdit(false)}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="btn btn-success btn-sm"
-                  onClick={putUserData}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
+        </div>
+        <div className="col-md-6 flex flex-wrap justify-center items-center">
+          {edit ? (
+            <div className="flex flex-wrap gap-2 justify-center">
               <button
-                className="btn btn-primary btn-sm"
-                onClick={() => setEdit(true)}
+                className="btn btn-danger btn-sm text-xs"
+                onClick={() => setEdit(false)}
               >
-                Editar datos
+                Cancelar
               </button>
-            )}
-          </div>
+              <button
+                className="btn btn-success btn-sm text-xs"
+                onClick={putUserData}
+              >
+                Guardar
+              </button>
+            </div>
+          ) : (
+            <button
+              className="btn btn-dark btn-sm text-xs"
+              onClick={() => setEdit(true)}
+            >
+              Editar datos
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { Login } from "../pages/Login";
 import { Account } from "../pages/Account";
 import { Classes } from "../pages/Classes";
 import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
 
 export const AppRouter = () => {
   const { status, checkAuth } = useAuthStore();
@@ -20,7 +21,7 @@ export const AppRouter = () => {
   }
 
   return (
-    <>
+    <div className="bg-gray-300">
       {status !== "not-auth" && <Navbar />}
       <Routes>
         {status === "not-auth" ? (
@@ -37,6 +38,7 @@ export const AppRouter = () => {
           </>
         )}
       </Routes>
-    </>
+      {status !== "not-auth" && <Footer />}
+    </div>
   );
 };

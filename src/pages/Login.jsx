@@ -16,7 +16,6 @@ export const Login = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: data.message,
         showConfirmButton: false,
         timer: 1500,
       });

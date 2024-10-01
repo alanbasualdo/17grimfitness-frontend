@@ -4,11 +4,16 @@ import { useClassStore } from "../hooks/useClassesStore";
 import { UserData } from "../components/UserData";
 import { useUserClass } from "../hooks/useUserClass";
 import { useSelector } from "react-redux";
+import { Payments } from "../components/Payments";
 
 export const Account = () => {
   const { user } = useAuthStore();
   const { startPostClass } = useClassStore();
-  const { getAllClassesByUser, getInscribedUsersByClass } = useUserClass();
+  const {
+    getAllClassesByUser,
+    getInscribedUsersByClass,
+    startUnsubscribeClass,
+  } = useUserClass();
   const [addClass, setAddClass] = useState(false);
   const { userClasses, loadingUserClasses } = useSelector(
     (state) => state.userClasses
@@ -34,8 +39,6 @@ export const Account = () => {
       });
     }
   }, [addClass]);
-
-  console.log(userClasses);
 
   useEffect(() => {
     getAllClassesByUser();
@@ -83,14 +86,21 @@ export const Account = () => {
     }
   };
 
+  const unsubscribeClass = async (classId) => {
+    try {
+      const data = await startUnsubscribeClass(classId);
+      console.log(data);
+    } catch (error) {}
+  };
+
   return (
     <>
       <div className="text-center">
-        {user.role === "AdminRole" && (
+        {user.role === "AdminRolee" && (
           <div className="mx-2 mb-2">
             <button
               className={`btn btn-sm mb-2 ${
-                addClass ? "btn-danger" : "btn-primary"
+                addClass ? "btn-danger" : "btn-dark"
               }`}
               onClick={() => setAddClass(!addClass)}
             >
@@ -191,44 +201,52 @@ export const Account = () => {
           </div>
         )}
       </div>
-      <UserData user={user} />
-
-      <div className="flex flex-col p-2 mt-3">
-        <table className="table table-bordered table-hover text-center">
-          <thead className="table-secondary">
-            <tr>
-              <th scope="col" className="text-dark">
-                Horario
-              </th>
-              <th scope="col" className="text-dark">
-                Clase
-              </th>
-              <th scope="col" className="text-dark">
-                Costo
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {userClasses.length > 0 ? (
-              userClasses.map((userClass, index) => (
-                <tr key={index} className="cursor-pointer">
-                  <td>{`${userClass.class.from} - ${userClass.class.to}`}</td>
-                  <td>{userClass.class.about}</td>
-                  <td>{getClassCost(index)}</td>
-                </tr>
-              ))
-            ) : (
+      <div className="flex flex-col p-2 mt-2 mb-2">
+        <div
+          className="p-2 rounded-lg border-2 bg-dark"
+          style={{ overflowX: "auto" }}
+        >
+          <table className="table table-hover text-sm table-dark text-center">
+            <thead>
               <tr>
-                <td colSpan="2">No hay clases disponibles</td>
+                <th scope="col" className="text-light">
+                  Horario
+                </th>
+                <th scope="col" className="text-light">
+                  Clase
+                </th>
               </tr>
-            )}
-            <tr className="cursor-pointer">
-              <td></td>
-              <td className="font-bold">Total</td>
-              <td className="font-bold">{calculateTotalCost()}</td>
-            </tr>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {userClasses.length > 0 ? (
+                userClasses.map((userClass, index) => (
+                  <tr
+                    key={index}
+                    className="cursor-pointer"
+                    onClick={() => unsubscribeClass(userClass._id)}
+                  >
+                    <td>{`${userClass.class.from} - ${userClass.class.to}`}</td>
+                    <td>{userClass.class.about}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">No hay clases disponibles</td>
+                </tr>
+              )}
+              <tr className="cursor-pointer">
+                <td className="font-bold">Costo total:</td>
+                <td className="font-bold">${calculateTotalCost()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className="mb-3">
+        <Payments />
+      </div>
+      <div className="mb-3">
+        <UserData user={user} />
       </div>
     </>
   );

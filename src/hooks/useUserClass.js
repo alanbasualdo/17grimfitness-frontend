@@ -70,10 +70,25 @@ export const useUserClass = () => {
     }
   };
 
+  // Desinscribir usuario de una clase
+  const startUnsubscribeClass = async (classId) => {
+    dispatch(setLoadingUserClasses(true));
+    try {
+      const { data } = await gymApi.delete(`/userClass/unsubscribe/${classId}`);
+      dispatch(setLoadingUserClasses(false));
+      return data;
+    } catch (error) {
+      dispatch(setLoadingUserClasses(false));
+      console.error("Error al desinscribir al usuario:", error);
+      return { success: false, message: "Error al desinscribir al usuario" };
+    }
+  };
+
   return {
     startSubscribeClass,
     getAllClasses,
     getInscribedUsersByClass,
     getAllClassesByUser,
+    startUnsubscribeClass,
   };
 };

@@ -50,8 +50,23 @@ export const Classes = () => {
       if (result.isConfirmed) {
         try {
           const data = await startSubscribeClass(gymClass);
-          console.log(data);
-          Swal.fire("Listo!", "", "success");
+          if (data.success) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
         } catch (error) {
           Swal.fire("Error", "No se pudo inscribir a la clase", "error");
         }
@@ -66,38 +81,40 @@ export const Classes = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container mt-3">
       <div className="row">
         {sortedClasses.map((day, index) => (
-          <div key={index} className="col-md-6 mb-4">
+          <div key={index} className="col-md-6 mb-3">
             <div className="text-center">
-              <h4 className="font-bold">{day}</h4>
-              <table className="table table-bordered table-hover text-center">
-                <thead className="table-secondary">
-                  <tr>
-                    <th scope="col" className="text-dark">
-                      Horario
-                    </th>
-                    <th scope="col" className="text-dark">
-                      Clase
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {classes
-                    .filter((classItem) => classItem.day === day)
-                    .map((classItem, index) => (
-                      <tr
-                        key={index}
-                        className="cursor-pointer"
-                        onClick={() => subscribeToTheClass(classItem)}
-                      >
-                        <td>{`${classItem.from} - ${classItem.to}`}</td>
-                        <td>{classItem.about}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div
+                className="p-2 rounded-lg border-2 bg-dark"
+                style={{ overflowX: "auto" }}
+              >
+                <h4 className="font-bold text-light">{day}</h4>
+                <hr className="text-light m-0 p-0" />
+                <table className="table table-hover text-sm table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">Horario</th>
+                      <th scope="col">Clase</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {classes
+                      .filter((classItem) => classItem.day === day)
+                      .map((classItem, index) => (
+                        <tr
+                          key={index}
+                          className="cursor-pointer"
+                          onClick={() => subscribeToTheClass(classItem)}
+                        >
+                          <td>{`${classItem.from} - ${classItem.to}`}</td>
+                          <td>{classItem.about}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         ))}

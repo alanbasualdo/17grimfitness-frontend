@@ -9,20 +9,20 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 mb-4 bg-gray-100 w-full">
+    <div className="flex flex-col items-center justify-center p-2 bg-dark w-full border-b-2">
       <ul className="nav nav-underline gap-4">
         <li className="nav-item">
-          <Link className="nav-link text-black" to="/classes">
+          <Link className="nav-link text-light" to="/classes">
             Clases <i className="ri-timer-flash-line"></i>
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link text-black" to="/account">
+          <Link className="nav-link text-light" to="/account">
             Cuenta <i className="ri-home-2-line"></i>
           </Link>
         </li>
         <li className="nav-item">
-          <button className="nav-link text-black" onClick={logout}>
+          <button className="nav-link text-light" onClick={logout}>
             Salir <i className="ri-logout-box-r-line"></i>
           </button>
         </li>

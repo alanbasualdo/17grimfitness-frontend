@@ -1,5 +1,5 @@
 export const getEnv = () => {
     return {
-        SERVER: import.meta.env.SERVER
+        VITE_SERVER: import.meta.env.VITE_SERVER
     }
 }

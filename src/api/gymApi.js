@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getEnv } from "../helpers/getEnv";
 
-const { SERVER } = getEnv();
+const { VITE_SERVER } = getEnv();
 
 const gymApi = axios.create({
   baseURL: "http://localhost:3000",

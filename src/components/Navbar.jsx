@@ -22,6 +22,11 @@ export const Navbar = () => {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link text-light" to="/admin">
+            Admin <i className="ri-user-settings-line"></i>
+          </Link>
+        </li>
+        <li className="nav-item">
           <button className="nav-link text-light" onClick={logout}>
             Salir <i className="ri-logout-box-r-line"></i>
           </button>

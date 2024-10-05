@@ -5,19 +5,18 @@ import { UserData } from "../components/UserData";
 import { useUserClass } from "../hooks/useUserClass";
 import { useSelector } from "react-redux";
 import { Payments } from "../components/Payments";
+import Swal from "sweetalert2";
 
 export const Account = () => {
   const { user } = useAuthStore();
   const { startPostClass } = useClassStore();
-  const {
-    getAllClassesByUser,
-    getInscribedUsersByClass,
-    startUnsubscribeClass,
-  } = useUserClass();
+  const { getAllClassesByUser, startUnsubscribeClass } = useUserClass();
   const [addClass, setAddClass] = useState(false);
+  const [totalCost, setTotalCost] = useState(0);
   const { userClasses, loadingUserClasses } = useSelector(
     (state) => state.userClasses
   );
+
   const [newClass, setNewClass] = useState({
     day: "",
     from: "",
@@ -27,6 +26,43 @@ export const Account = () => {
 
   const addNewClass = async () => {
     await startPostClass(newClass);
+  };
+
+  const unsubscribeClass = async (classId) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esto cancelará tu inscripción a la clase.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, cancelar",
+      cancelButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const data = await startUnsubscribeClass(classId);
+        if (data.success) {
+          getAllClassesByUser();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } catch (error) {
+        console.error("Error al cancelar la clase", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -44,7 +80,7 @@ export const Account = () => {
     getAllClassesByUser();
   }, []);
 
-  const calculateTotalCost = () => {
+  useEffect(() => {
     const numClasses = userClasses.length;
     let cost = 0;
     switch (numClasses) {
@@ -64,34 +100,10 @@ export const Account = () => {
         cost = 10500;
         break;
       default:
-        cost = numClasses > 5 ? 10500 + (numClasses - 5) * 1000 : 0; // Si hay más de 5 clases, se suma 1000 por cada clase extra
+        cost = numClasses > 5 ? 10500 + (numClasses - 5) * 1000 : 0;
     }
-    return cost;
-  };
-
-  const getClassCost = (index) => {
-    switch (index + 1) {
-      case 1:
-        return 6500;
-      case 2:
-        return 7500;
-      case 3:
-        return 8500;
-      case 4:
-        return 9500;
-      case 5:
-        return 10500;
-      default:
-        return 10500 + (index - 4) * 1000; // Si hay más de 5 clases, se suma 1000 por cada clase extra
-    }
-  };
-
-  const unsubscribeClass = async (classId) => {
-    try {
-      const data = await startUnsubscribeClass(classId);
-      console.log(data);
-    } catch (error) {}
-  };
+    setTotalCost(cost);
+  }, [userClasses]);
 
   return (
     <>
@@ -236,7 +248,7 @@ export const Account = () => {
               )}
               <tr className="cursor-pointer">
                 <td className="font-bold">Costo total:</td>
-                <td className="font-bold">${calculateTotalCost()}</td>
+                <td className="font-bold">${totalCost}</td>
               </tr>
             </tbody>
           </table>

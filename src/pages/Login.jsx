@@ -45,7 +45,7 @@ export const Login = () => {
   }, [email, password]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen m-2">
+    <div className="flex flex-col items-center justify-center h-screen mx-2">
       <h1 className="font-bold text-5xl">17GRIM</h1>
       <p className="text-xl">Fitness</p>
       <div className="text-end">

@@ -8,6 +8,7 @@ import { Account } from "../pages/Account";
 import { Classes } from "../pages/Classes";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { Admin } from "../pages/Admin";
 
 export const AppRouter = () => {
   const { status, checkAuth } = useAuthStore();
@@ -35,6 +36,7 @@ export const AppRouter = () => {
             <Route path="/*" element={<Navigate to="/classes" />} />
             <Route path="/account" element={<Account />} />
             <Route path="/classes" element={<Classes />} />
+            <Route path="/admin" element={<Admin />} />
           </>
         )}
       </Routes>

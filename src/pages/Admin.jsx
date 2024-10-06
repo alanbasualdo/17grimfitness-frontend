@@ -51,7 +51,7 @@ export const Admin = () => {
           {users.map((user) => (
             <div
               key={user._id}
-              className="bg-dark rounded text-light px-3 py-2"
+              className="bg-dark rounded text-light px-3 py-2 w-full"
             >
               {isEditable && selectedUser.id === user.id ? (
                 <>
@@ -186,54 +186,58 @@ export const Admin = () => {
                   </div>
                 </>
               ) : (
-                <>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Nombre:</b>
-                    {user.name}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Apellido:</b>
-                    {user.lastName}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Email:</b>
-                    {user.email}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">DNI:</b>
-                    {user.dni}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Celular:</b>
-                    {user.cel}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Ciudad:</b>
-                    {user.city}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Dirección:</b>
-                    {user.address}
-                  </p>
-                  <p className="flex flex-wrap items-center gap-2">
-                    <b className="text-sm">Fecha de inicio:</b>
-                    {moment.utc(user.startDate).format("DD/MM/YYYY")}
-                  </p>
-                  <p
-                    className={`flex flex-wrap items-center gap-2 ${
-                      user.state ? "text-success" : "text-danger"
-                    }`}
-                  >
-                    <b className="text-sm">Estado:</b>
-                    {user.state ? "Alta" : "Baja"}
-                  </p>
+                <div className="flex flex-col gap-1">
+                  <div onClick={() => console.log("nada")}>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">Nombre:</b>
+                      {user.name ? user.name : "No tiene"}
+                      <b className="text-sm">Apellido:</b>
+                      {user.lastName ? user.lastName : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">Email:</b>
+                      {user.email ? user.email : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">DNI:</b>
+                      {user.dni ? user.dni : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">Celular:</b>
+                      {user.cel ? user.cel : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">Ciudad:</b>
+                      {user.city ? user.city : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">Dirección:</b>
+                      {user.address ? user.address : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      <b className="text-sm">Fecha de inicio:</b>
+                      {user.startDate
+                        ? moment.utc(user.startDate).format("DD/MM/YYYY")
+                        : "No tiene"}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-2 mb-0">
+                      Estado:
+                      <b
+                        className={`text-sm ${
+                          user.state ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {user.state ? "Activo" : "Inactivo"}
+                      </b>
+                    </p>
+                  </div>
                   <button
                     onClick={() => handleEditClick(user)}
                     className="btn btn-warning mb-1 btn-sm"
                   >
                     Editar
                   </button>
-                </>
+                </div>
               )}
             </div>
           ))}
